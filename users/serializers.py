@@ -1,11 +1,22 @@
 from rest_framework import serializers
+
 from users.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'email', 'first_name', 'last_name', 'phone', 'city', 'avatar', 'telegram_chat_id', 'date_joined']
+        fields = [
+            'id',
+            'email',
+            'first_name',
+            'last_name',
+            'phone',
+            'city',
+            'avatar',
+            'telegram_chat_id',
+            'date_joined',
+        ]
         read_only_fields = ['id', 'date_joined']
 
 
@@ -14,7 +25,17 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'email', 'password', 'first_name', 'last_name', 'phone', 'city', 'avatar', 'telegram_chat_id']
+        fields = [
+            'id',
+            'email',
+            'password',
+            'first_name',
+            'last_name',
+            'phone',
+            'city',
+            'avatar',
+            'telegram_chat_id',
+        ]
 
     def create(self, validated_data):
         password = validated_data.pop('password')
@@ -27,4 +48,11 @@ class UserCreateSerializer(serializers.ModelSerializer):
 class UserProfileUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'phone', 'city', 'avatar', 'telegram_chat_id']
+        fields = [
+            'first_name',
+            'last_name',
+            'phone',
+            'city',
+            'avatar',
+            'telegram_chat_id',
+        ]

@@ -13,9 +13,7 @@ logger = get_task_logger(__name__)
 def deactivate_inactive_users():
     thirty_days_ago = timezone.now() - timedelta(days=30)
     updated_count = User.objects.filter(
-        last_login__lt=thirty_days_ago,
-        is_active=True,
-        is_superuser=False
+        last_login__lt=thirty_days_ago, is_active=True, is_superuser=False
     ).update(is_active=False)
 
     if updated_count > 0:

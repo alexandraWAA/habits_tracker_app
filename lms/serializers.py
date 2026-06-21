@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from lms.models import Course, Lesson, Subscription, Payment
+
+from lms.models import Course, Lesson, Payment, Subscription
 from lms.validators import validate_youtube_url
 
 
@@ -8,7 +9,17 @@ class LessonSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Lesson
-        fields = ['id', 'name', 'description', 'preview', 'video_url', 'course', 'course_name', 'created_at', 'updated_at']
+        fields = [
+            'id',
+            'name',
+            'description',
+            'preview',
+            'video_url',
+            'course',
+            'course_name',
+            'created_at',
+            'updated_at',
+        ]
         read_only_fields = ['id', 'created_at', 'updated_at']
 
 
@@ -30,9 +41,16 @@ class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = [
-            'id', 'name', 'preview', 'description', 'price',
-            'lessons_count', 'lessons', 'is_subscribed',
-            'created_at', 'updated_at'
+            'id',
+            'name',
+            'preview',
+            'description',
+            'price',
+            'lessons_count',
+            'lessons',
+            'is_subscribed',
+            'created_at',
+            'updated_at',
         ]
         read_only_fields = ['id', 'created_at', 'updated_at']
 
@@ -65,4 +83,13 @@ class PaymentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Payment
-        fields = ['id', 'course', 'course_name', 'amount', 'payment_url', 'status', 'created_at', 'paid_at']
+        fields = [
+            'id',
+            'course',
+            'course_name',
+            'amount',
+            'payment_url',
+            'status',
+            'created_at',
+            'paid_at',
+        ]

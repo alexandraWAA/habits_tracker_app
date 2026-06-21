@@ -1,4 +1,5 @@
 from django.urls import path
+
 from habits.views import (
     HabitListCreateView,
     HabitRetrieveUpdateDeleteView,

@@ -11,13 +11,14 @@ logger = get_task_logger(__name__)
 @shared_task
 def send_habit_notifications():
     from habits.services import send_telegram_notification
+
     now = datetime.now()
     current_time = now.time()
 
     habits = Habit.objects.filter(
         time__gte=current_time,
         time__lte=current_time,
-        user__telegram_chat_id__isnull=False
+        user__telegram_chat_id__isnull=False,
     )
 
     for habit in habits:

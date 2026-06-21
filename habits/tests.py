@@ -1,13 +1,16 @@
-from rest_framework.test import APITestCase, APIClient
-from rest_framework import status
 from django.urls import reverse
-from users.models import User
+from rest_framework import status
+from rest_framework.test import APIClient, APITestCase
+
 from habits.models import Habit
+from users.models import User
 
 
 class HabitTests(APITestCase):
     def setUp(self):
-        self.user = User.objects.create_user(email='test@test.com', password='testpass123')
+        self.user = User.objects.create_user(
+            email='test@test.com', password='testpass123'
+        )
         self.client = APIClient()
         self.client.force_authenticate(user=self.user)
 
@@ -16,7 +19,7 @@ class HabitTests(APITestCase):
             'time': '08:00:00',
             'action': 'Exercise',
             'execution_time': 60,
-            'periodicity': 1
+            'periodicity': 1,
         }
 
     def test_create_habit_success(self):

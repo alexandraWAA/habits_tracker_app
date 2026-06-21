@@ -5,11 +5,7 @@ from django.conf import settings
 def send_message(chat_id, text, parse_mode='HTML'):
     """Отправка сообщения в Telegram"""
     url = f"{settings.TELEGRAM_BOT_URL}{settings.TELEGRAM_BOT_TOKEN}/sendMessage"
-    data = {
-        'chat_id': chat_id,
-        'text': text,
-        'parse_mode': parse_mode
-    }
+    data = {'chat_id': chat_id, 'text': text, 'parse_mode': parse_mode}
     try:
         response = requests.post(url, data=data, timeout=10)
         return response.status_code == 200

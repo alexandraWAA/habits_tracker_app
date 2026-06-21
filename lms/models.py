@@ -1,12 +1,15 @@
-from django.db import models
 from django.conf import settings
 from django.core.validators import MinValueValidator
+from django.db import models
+
 from lms.validators import validate_youtube_url
 
 
 class Course(models.Model):
     name = models.CharField(max_length=200, verbose_name='Название')
-    preview = models.ImageField(upload_to='course_previews/', blank=True, null=True, verbose_name='Превью')
+    preview = models.ImageField(
+        upload_to='course_previews/', blank=True, null=True, verbose_name='Превью'
+    )
     description = models.TextField(blank=True, null=True, verbose_name='Описание')
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -14,17 +17,21 @@ class Course(models.Model):
         related_name='courses',
         verbose_name='Владелец',
         null=True,
-        blank=True
+        blank=True,
     )
     price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
         default=0,
         validators=[MinValueValidator(0)],
-        verbose_name='Цена'
+        verbose_name='Цена',
     )
-    stripe_product_id = models.CharField(max_length=255, blank=True, null=True, verbose_name='ID продукта в Stripe')
-    stripe_price_id = models.CharField(max_length=255, blank=True, null=True, verbose_name='ID цены в Stripe')
+    stripe_product_id = models.CharField(
+        max_length=255, blank=True, null=True, verbose_name='ID продукта в Stripe'
+    )
+    stripe_price_id = models.CharField(
+        max_length=255, blank=True, null=True, verbose_name='ID цены в Stripe'
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -39,16 +46,25 @@ class Course(models.Model):
 class Lesson(models.Model):
     name = models.CharField(max_length=200, verbose_name='Название')
     description = models.TextField(blank=True, null=True, verbose_name='Описание')
-    preview = models.ImageField(upload_to='lesson_previews/', blank=True, null=True, verbose_name='Превью')
-    video_url = models.URLField(blank=True, null=True, validators=[validate_youtube_url], verbose_name='Ссылка на видео')
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='lessons', verbose_name='Курс')
+    preview = models.ImageField(
+        upload_to='lesson_previews/', blank=True, null=True, verbose_name='Превью'
+    )
+    video_url = models.URLField(
+        blank=True,
+        null=True,
+        validators=[validate_youtube_url],
+        verbose_name='Ссылка на видео',
+    )
+    course = models.ForeignKey(
+        Course, on_delete=models.CASCADE, related_name='lessons', verbose_name='Курс'
+    )
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='lessons',
         verbose_name='Владелец',
         null=True,
-        blank=True
+        blank=True,
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -66,9 +82,14 @@ class Subscription(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='subscriptions',
-        verbose_name='Пользователь'
+        verbose_name='Пользователь',
     )
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='subscriptions', verbose_name='Курс')
+    course = models.ForeignKey(
+        Course,
+        on_delete=models.CASCADE,
+        related_name='subscriptions',
+        verbose_name='Курс',
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -82,9 +103,11 @@ class Payment(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='payments',
-        verbose_name='Пользователь'
+        verbose_name='Пользователь',
     )
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='payments', verbose_name='Курс')
+    course = models.ForeignKey(
+        Course, on_delete=models.CASCADE, related_name='payments', verbose_name='Курс'
+    )
     amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Сумма')
     stripe_session_id = models.CharField(max_length=255, blank=True, null=True)
     stripe_payment_intent_id = models.CharField(max_length=255, blank=True, null=True)
@@ -92,7 +115,7 @@ class Payment(models.Model):
     status = models.CharField(
         max_length=50,
         default='pending',
-        choices=[('pending', 'Ожидает'), ('paid', 'Оплачен'), ('failed', 'Ошибка')]
+        choices=[('pending', 'Ожидает'), ('paid', 'Оплачен'), ('failed', 'Ошибка')],
     )
     created_at = models.DateTimeField(auto_now_add=True)
     paid_at = models.DateTimeField(blank=True, null=True)

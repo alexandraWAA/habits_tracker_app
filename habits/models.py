@@ -1,12 +1,13 @@
-from django.db import models
 from django.conf import settings
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
+
 from habits.validators import (
-    validate_no_reward_and_related_habit,
-    validate_related_habit_is_pleasant,
-    validate_pleasant_habit_no_reward_or_related,
     validate_execution_time,
-    validate_periodicity
+    validate_no_reward_and_related_habit,
+    validate_periodicity,
+    validate_pleasant_habit_no_reward_or_related,
+    validate_related_habit_is_pleasant,
 )
 
 
@@ -15,7 +16,7 @@ class Habit(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='habits',
-        verbose_name='Пользователь'
+        verbose_name='Пользователь',
     )
     place = models.CharField(max_length=200, verbose_name='Место')
     time = models.TimeField(verbose_name='Время')
@@ -27,17 +28,19 @@ class Habit(models.Model):
         null=True,
         blank=True,
         related_name='related_to',
-        verbose_name='Связанная привычка'
+        verbose_name='Связанная привычка',
     )
     periodicity = models.PositiveSmallIntegerField(
         default=1,
         validators=[MinValueValidator(1), MaxValueValidator(7)],
-        verbose_name='Периодичность (дни)'
+        verbose_name='Периодичность (дни)',
     )
-    reward = models.CharField(max_length=200, blank=True, null=True, verbose_name='Вознаграждение')
+    reward = models.CharField(
+        max_length=200, blank=True, null=True, verbose_name='Вознаграждение'
+    )
     execution_time = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(120)],
-        verbose_name='Время на выполнение (секунды)'
+        verbose_name='Время на выполнение (секунды)',
     )
     is_public = models.BooleanField(default=False, verbose_name='Публичная привычка')
     created_at = models.DateTimeField(auto_now_add=True)

@@ -10,7 +10,7 @@ def create_stripe_product(course):
         product = stripe.Product.create(
             name=course.name,
             description=course.description or f'Курс "{course.name}"',
-            metadata={'course_id': course.id}
+            metadata={'course_id': course.id},
         )
         return product.id
     except stripe.error.StripeError as e:
@@ -36,7 +36,7 @@ def create_checkout_session(price_id, course_name, success_url, cancel_url):
             cancel_url=cancel_url,
             line_items=[{'price': price_id, 'quantity': 1}],
             mode='payment',
-            metadata={'course_name': course_name}
+            metadata={'course_name': course_name},
         )
         return session
     except stripe.error.StripeError as e:
