@@ -3,7 +3,12 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 
 stripe.api_key = settings.STRIPE_API_KEY
-
+try:
+    import stripe
+    from django.conf import settings
+    stripe.api_key = settings.STRIPE_API_KEY
+except (ImportError, AttributeError):
+    stripe = None
 
 def create_stripe_product(course):
     try:
