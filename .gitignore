@@ -75,3 +75,8 @@ logs/
 # Local development
 local_settings.py
 *.bak
+
+# Linters
+.flake8
+pyproject.toml
+.editorconfig
