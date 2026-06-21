@@ -150,3 +150,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Stripe Settings
 STRIPE_API_KEY = os.getenv('STRIPE_API_KEY', '')
 STRIPE_WEBHOOK_SECRET = os.getenv('STRIPE_WEBHOOK_SECRET', '')
+# Для тестов используем заглушку
+if not STRIPE_API_KEY:
+    STRIPE_API_KEY = 'sk_test_placeholder'
+    STRIPE_WEBHOOK_SECRET = 'whsec_placeholder'
