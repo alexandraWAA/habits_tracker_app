@@ -45,7 +45,7 @@ jobs:
         - name: Run black check
     - name: Run isort check
       run: |
-        isort --check-only --diff .
+        isort --check-only --diff . --settings-path pyproject.toml
 
     - name: Run flake8
       run: |
