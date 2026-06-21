@@ -71,7 +71,7 @@ jobs:
         ports:
           - 5432:5432
         options: >-
-          --health-cmd pg_isready
+          --health-cmd "pg_isready -U habits_user"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -99,6 +99,8 @@ jobs:
         DB_NAME: habits_db
         DB_USER: habits_user
         DB_PASSWORD: habits_password
+        PGUSER: habits_user
+        PGPASSWORD: habits_password
         STRIPE_API_KEY: sk_test_placeholder
         STRIPE_WEBHOOK_SECRET: whsec_placeholder
       run: |

@@ -3,7 +3,26 @@ from datetime import timedelta
 from pathlib import Path
 
 from dotenv import load_dotenv
+import sys
 
+if 'test' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': ':memory:',
+        }
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv('DB_NAME', 'habits_db'),
+            'USER': os.getenv('DB_USER', 'habits_user'),
+            'PASSWORD': os.getenv('DB_PASSWORD', ''),
+            'HOST': os.getenv('DB_HOST', 'localhost'),
+            'PORT': os.getenv('DB_PORT', '5432'),
+        }
+    }
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
