@@ -105,12 +105,20 @@ jobs:
 
       - name: Run tests
         env:
-          DB_ENGINE: django.db.backends.sqlite3
-          DB_NAME: ':memory:'
+          DB_HOST: localhost
+          DB_PORT: 5432
+          DB_NAME: habits_db
+          DB_USER: habits_user
+          DB_PASSWORD: habits_password
           STRIPE_API_KEY: sk_test_placeholder
           STRIPE_WEBHOOK_SECRET: whsec_placeholder
         run: |
+          echo "=== Running migrations ==="
+          python manage.py makemigrations
+          python manage.py migrate
+          echo "=== Running tests ==="
           python manage.py test -v 2
+          echo "=== Tests finished ==="
   build:
     runs-on: ubuntu-latest
     needs: test
