@@ -72,4 +72,14 @@ class PublicHabitSerializer(serializers.ModelSerializer):
             'execution_time',
             'created_at',
         ]
-        read_only_fields = '__all__'
+        # ИСПРАВЛЕНО
+        read_only_fields = [
+            'id',
+            'user_email',
+            'place',
+            'time',
+            'action',
+            'periodicity',
+            'execution_time',
+            'created_at',
+        ]
