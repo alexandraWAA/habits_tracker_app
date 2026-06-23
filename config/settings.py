@@ -197,4 +197,4 @@ if os.getenv('USE_SQLITE', 'False') == 'True':
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
-    print("=== USING SQLITE FOR DEVELOPMENT ===")
+    print("=== USING SQLITE ===")
